@@ -212,7 +212,6 @@ DM1 extends prior work on diffusion and flow-based control. We gratefully acknow
 - **[ReinFlow](<https://arxiv.org/abs/2505.22094>)** (2025): Flow matching with online RL for robotic manipulation
 - **[MeanFlow](<https://arxiv.org/abs/2505.13447>)** (NeurIPS 2025): Mean flows for one-step generative modeling
 - **[FlowPolicy](<https://arxiv.org/abs/2412.04987>)** (AAAI 2025): 3D flow-based policy via consistency flow matching
-- **[MP1](<https://arxiv.org/abs/2507.10543>)** (2025): MeanFlow for robotic manipulation
 - **[D2PPO](<https://arxiv.org/abs/2508.02644>)** (2025): Diffusion Policy Policy Optimization with Dispersive Loss
 - **[π<sub>0.5</sub>](<https://arxiv.org/abs/2504.16054>)** (2025): a Vision-Language-Action Model with Open-World Generalization
 
