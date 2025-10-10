@@ -207,27 +207,12 @@ If you build upon DM1, please cite:
 ## 🙏 Acknowledgments
 
 DM1 extends prior work on diffusion and flow-based control. We gratefully acknowledge:
-- [Diffusion Policy](<DIFFUSION_POLICY_URL>)
-- [MeanFlow / Shortcut Models](<MEANFLOW_REPO_URL>)
-- [Robomimic Benchmark](<ROBOMIMIC_URL>)
-- [DPPO](<DPPO_REPO_URL>)
 
-See `THIRD_PARTY_LICENSES.md` for complete dependency attributions.
+- **[Diffusion Policy](<https://arxiv.org/abs/2303.04137>)** (CoRL 2023): Pioneered diffusion models for visuomotor control
+- **[ReinFlow](<https://arxiv.org/abs/2505.22094>)** (2025): Flow matching with online RL for robotic manipulation
+- **[MeanFlow](<https://arxiv.org/abs/2505.13447>)** (NeurIPS 2025): Mean flows for one-step generative modeling
+- **[FlowPolicy](<https://arxiv.org/abs/2412.04987>)** (AAAI 2025): 3D flow-based policy via consistency flow matching
+- **[MP1](<https://arxiv.org/abs/2507.10543>)** (2025): MeanFlow for robotic manipulation
+- **[D2PPO](<https://arxiv.org/abs/2508.02644>)** (2025): Diffusion Policy Policy Optimization with Dispersive Loss
+- **[π<sub>0.5</sub>](<https://arxiv.org/abs/2504.16054>)** (2025): a Vision-Language-Action Model with Open-World Generalization
 
----
-
-## 📄 License
-
-Released under the `<DM1_LICENSE>` License. See [LICENSE](LICENSE) for details.
-
----
-
-## 📬 Contact
-
-- Submit issues: `<DM1_ISSUES_URL>`  
-- Join discussions: `<DM1_COMMUNITY_LINK>`  
-- Email: `<DM1_CONTACT_EMAIL>`
-
----
-
-*This release focuses on pre-training and evaluation workflows. PPO-style online fine-tuning is tracked in `<DM1_FUTURE_WORK_URL>`.*
