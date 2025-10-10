@@ -1,6 +1,10 @@
-# DM1: Diffusive MeanFlow with Dispersive Regularization
-
 <div align="center">
+
+# DM1: MeanFlow with Dispersive Regularization for 1-Step Robotic Manipulation
+
+### [Guowei Zou](https://guowei-zou.github.io/Guowei-Zou/), Haitao Wang, [Hejun Wu](https://cse.sysu.edu.cn/teacher/WuHejun), Yukun Qian, Yuhang Wang, and [Weibing Li](https://cse.sysu.edu.cn/en/teacher/LiWeibing)*
+
+
 
 [![🚀 Project Page](https://img.shields.io/badge/🚀_Project_Page-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white)](https://guowei-zou.github.io/dm1/)
 [![📄 Paper](https://img.shields.io/badge/📄_Paper-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white)](<https://arxiv.org/abs/2510.07865>)
@@ -10,8 +14,10 @@
 [![🔗 Checkpoints](https://img.shields.io/badge/🔗_Checkpoints-34A853?style=for-the-badge&logo=google-drive&logoColor=white)](https://drive.google.com/drive/folders/1l5JZvx9OBXRW0A6Vy27aO967J85DaKh8?usp=sharing)
 [![📊 Evaluation Results](https://img.shields.io/badge/📊_Evaluation_Results-34A853?style=for-the-badge&logo=google-drive&logoColor=white)](https://drive.google.com/drive/folders/1OjsDdBxOVy2x77cwsL1V2T7ey_slp7nj?usp=sharing)
 
-> **DM1 – One-Step Diffusion MeanFlow with Dispersive Regularization**  
-> Streamlined flow-based policies for visuomotor manipulation, stabilized by dispersive loss to avoid representation collapse.
+
+>
+> A novel flow matching framework that prevents representation collapse while maintaining one-step efficiency.
+> Achieves **20-40× faster inference** (0.07s vs. 2-3.5s) and **10-20% higher success rates** compared to diffusion baselines.
 
 </div>
 
