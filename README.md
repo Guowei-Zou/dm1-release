@@ -2,11 +2,13 @@
 
 <div align="center">
 
-[![🚀 Project Page](https://img.shields.io/badge/🚀_Project_Page-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white)](<DM1_PROJECT_PAGE_URL>)
-[![📄 Paper](https://img.shields.io/badge/📄_Paper-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white)](<DM1_PAPER_URL>)
-[![💻 Code](https://img.shields.io/badge/💻_Code-181717?style=for-the-badge&logo=github&logoColor=white)](<DM1_RELEASE_REPO_URL>)
-[![🎥 Demo](https://img.shields.io/badge/🎥_Demo-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](<DM1_DEMO_VIDEO_URL>)
-[![📺 Playlist](https://img.shields.io/badge/📺_Playlist-FF6699?style=for-the-badge&logo=bilibili&logoColor=white)](<DM1_PLAYLIST_URL>)
+[![🚀 Project Page](https://img.shields.io/badge/🚀_Project_Page-4285F4?style=for-the-badge&logo=google-chrome&logoColor=white)](https://guowei-zou.github.io/dm1/)
+[![📄 Paper](https://img.shields.io/badge/📄_Paper-B31B1B?style=for-the-badge&logo=arxiv&logoColor=white)](<https://arxiv.org/abs/2510.07865>)
+[![💻 Code](https://img.shields.io/badge/💻_Code-181717?style=for-the-badge&logo=github&logoColor=white)](<https://github.com/Guowei-Zou/dm1-release>)
+[![🎥 Youtube](https://img.shields.io/badge/🎥_Youtube-FF0000?style=for-the-badge&logo=youtube&logoColor=white)](<https://www.youtube.com/watch?v=7d2IIOu8kig>)
+[![📺 Bilibili](https://img.shields.io/badge/📺_Bilibili-FF6699?style=for-the-badge&logo=bilibili&logoColor=white)](<https://www.bilibili.com/video/BV1uHxizNEz8/>)
+[![🔗 Checkpoints](https://img.shields.io/badge/🔗_Checkpoints-34A853?style=for-the-badge&logo=google-drive&logoColor=white)](https://drive.google.com/drive/folders/1l5JZvx9OBXRW0A6Vy27aO967J85DaKh8?usp=sharing)
+[![📊 Evaluation Results](https://img.shields.io/badge/📊_Evaluation_Results-34A853?style=for-the-badge&logo=google-drive&logoColor=white)](https://drive.google.com/drive/folders/1OjsDdBxOVy2x77cwsL1V2T7ey_slp7nj?usp=sharing)
 
 > **DM1 – One-Step Diffusion MeanFlow with Dispersive Regularization**  
 > Streamlined flow-based policies for visuomotor manipulation, stabilized by dispersive loss to avoid representation collapse.
@@ -183,11 +185,14 @@ dm1-release/
 If you build upon DM1, please cite:
 
 ```bibtex
-@misc{dm1_<YEAR>,
-  title        = {DM1: Diffusive MeanFlow with Dispersive Regularization},
-  author       = {<AUTHOR_LIST>},
-  year         = {<YEAR>},
-  url          = {<DM1_PAPER_URL>}
+@misc{zou2025dm1meanflowdispersiveregularization,
+      title={DM1: MeanFlow with Dispersive Regularization for 1-Step Robotic Manipulation}, 
+      author={Guowei Zou and Haitao Wang and Hejun Wu and Yukun Qian and Yuhang Wang and Weibing Li},
+      year={2025},
+      eprint={2510.07865},
+      archivePrefix={arXiv},
+      primaryClass={cs.RO},
+      url={https://arxiv.org/abs/2510.07865}, 
 }
 ```
 
