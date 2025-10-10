@@ -81,8 +81,11 @@ source script/set_path.sh  # defines <DATA_ROOT>, <LOG_ROOT>, <WANDB_ENTITY>
 
 ## 📦 Datasets & Checkpoints
 
-- Demonstration bundles: `<DM1_DATASET_URL>`  
-  Downloaded automatically to `<DATA_ROOT>` when launching pre-training.
+### Dataset Download
+
+**Note**: We use the same datasets as provided in the DPPO paper.
+
+Pre-training data for all tasks are pre-processed and available at [Google Drive](https://drive.google.com/drive/folders/1AXZvNQEKOrp0_jk1VLepKh_oHCg_9e3r?usp=drive_link). The pre-training script will download the data (including normalization statistics) automatically to the data directory.
 - Pretrained checkpoints: [Google Drive](https://drive.google.com/drive/folders/1l5JZvx9OBXRW0A6Vy27aO967J85DaKh8?usp=sharing)  
   Mirrors the latest DM1 pretraining weights; sync into `<LOG_ROOT>` for evaluation scripts.
 - Evaluation statistics: [Google Drive](https://drive.google.com/drive/folders/1OjsDdBxOVy2x77cwsL1V2T7ey_slp7nj?usp=sharing)  
