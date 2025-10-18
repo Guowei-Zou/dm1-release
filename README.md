@@ -218,3 +218,12 @@ DM1 extends prior work on diffusion and flow-based control. We gratefully acknow
 - **[D2PPO](<https://arxiv.org/abs/2508.02644>)** (2025): Diffusion Policy Policy Optimization with Dispersive Loss
 - **[π<sub>0.5</sub>](<https://arxiv.org/abs/2504.16054>)** (2025): a Vision-Language-Action Model with Open-World Generalization
 
+---
+
+## ⭐ Star History
+
+<div align="center">
+
+[![Star History Chart](https://api.star-history.com/svg?repos=Guowei-Zou/dm1-release&type=Date)](https://star-history.com/#Guowei-Zou/dm1-release&Date)
+
+</div>
