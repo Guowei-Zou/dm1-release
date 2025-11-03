@@ -38,3 +38,5 @@ Thumbs.db
 
 # Environment
 .env
+dm1_pretraining_checkpoints/
+visualize/

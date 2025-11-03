@@ -46,7 +46,7 @@ robomimic = [
     "cython<3",
     "d4rl",
     "patchelf",
-    "robomimic @ git+https://github.com/ARISE-Initiative/robomimic.git",
+    "robomimic==0.3.0",
     "robosuite @ git+https://github.com/ARISE-Initiative/robosuite.git@v1.4.1",
 ]
 d3il = [
@@ -72,12 +72,12 @@ all = [
     "ipdb==0.13.13",
     "patchelf",
     "pin",
-    "robomimic @ git+https://github.com/ARISE-Initiative/robomimic.git",
+    "robomimic==0.3.0",
     "robosuite @ git+https://github.com/ARISE-Initiative/robosuite.git@v1.4.1",
 ]
 
 [project.urls]
-Homepage = "https://github.com/your-username/dm1-release"
+Homepage = "https://github.com/Guowei-Zou/dm1-release"
 
 [tool.setuptools.packages.find]
 exclude = []

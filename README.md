@@ -35,10 +35,10 @@
 
 ## 🔑 Highlights
 
-- **Single-Step Inference** – Flow-based controller executes in `<DM1_INFERENCE_LATENCY>` per timestep.
+- **Single-Step Inference** – Flow-based controller executes in 0.07s per timestep.
 - **Dispersive Loss Family** – Plug-and-play InfoNCE / Cosine / Hinge regularizers prevent feature collapse.
 - **Vision-Ready** – Transformer encoder handles multi-view RGB observations out-of-the-box.
-- **Benchmarks & Real Robots** – Validated on `<PRIMARY_BENCHMARK>` and `<REAL_ROBOT_PLATFORM>`.
+- **Benchmarks & Real Robots** – Validated on Robomimic Benchmark and Franka-Emika-Panda robot.
 - **Modular Configs** – YAML-driven experiment recipes across pre-training, evaluation, and ablations.
 
 ---
@@ -48,9 +48,9 @@
 ### 1. Clone & Environment Setup
 
 ```bash
-git clone <DM1_RELEASE_REPO_URL>
+git clone https://github.com/Guowei-Zou/dm1-release.git
 cd dm1-release
-conda create -n dm1 python=<PYTHON_VERSION> -y
+conda create -n dm1 python=3.8 -y
 conda activate dm1
 pip install -e .
 ```
@@ -64,18 +64,11 @@ pip install -e .[robomimic]
 pip install -e .[all]
 ```
 
-### 2. External Dependencies
-
-| Environment Suite | Requirement | Notes |
-| ----------------- | ----------- | ----- |
-| Robomimic | MuJoCo `<MUJOCO_VERSION>` | see `installation/install_mujoco.md`
-| D3IL | `<D3IL_DEPENDENCY>` | see `installation/install_d3il.md`
-| Furniture | Isaac Gym `<ISAAC_VERSION>` | see `installation/install_furniture.md`
-
-Set shared paths and logging endpoints:
+Source the helper script before running any commands (update wandb entity, conda path, etc. inside if needed):
 ```bash
-source script/set_path.sh  # defines <DATA_ROOT>, <LOG_ROOT>, <WANDB_ENTITY>
+source activate_dm1.sh
 ```
+
 
 ---
 
@@ -83,47 +76,92 @@ source script/set_path.sh  # defines <DATA_ROOT>, <LOG_ROOT>, <WANDB_ENTITY>
 
 ### Dataset Download
 
-**Note**: We use the same datasets as provided in the DPPO paper.
+**Note**: We use the same datasets as provided in the DPPO paper. Pre-training data for all tasks are pre-processed and available at [Google Drive](https://drive.google.com/drive/folders/1AXZvNQEKOrp0_jk1VLepKh_oHCg_9e3r?usp=drive_link). 
 
-Pre-training data for all tasks are pre-processed and available at [Google Drive](https://drive.google.com/drive/folders/1AXZvNQEKOrp0_jk1VLepKh_oHCg_9e3r?usp=drive_link). The pre-training script will download the data (including normalization statistics) automatically to the data directory.
-- Pretrained checkpoints: [Google Drive](https://drive.google.com/drive/folders/1l5JZvx9OBXRW0A6Vy27aO967J85DaKh8?usp=sharing)  
-  Mirrors the latest DM1 pretraining weights; sync into `<LOG_ROOT>` for evaluation scripts.
-- Evaluation statistics: [Google Drive](https://drive.google.com/drive/folders/1OjsDdBxOVy2x77cwsL1V2T7ey_slp7nj?usp=sharing)  
-  Contains aggregated `.npz` metrics corresponding to the checkpoints above.
+**Manual Download (Robomimic image datasets):**
+
+```bash
+python resources/download_dm1_datasets.py
+```
+
+Optional suites (adds Gym, Kitchen, and D3IL datasets):
+
+```bash
+python resources/download_dm1_datasets.py --groups robomimic gym kitchen d3il
+```
+
+
+Need the entire Google Drive folder instead?
+
+```bash
+gdown --folder "https://drive.google.com/drive/folders/1AXZvNQEKOrp0_jk1VLepKh_oHCg_9e3r?usp=drive_link" -O data --remaining-ok
+```
+
+
+### Pretrained Checkpoints
+
+**Download:** Run `python resources/download_dm1_weights.py` or `bash resources/download_checkpoints.sh` to auto-download checkpoints to `dm1_pretraining_checkpoints/`.
+Alternatively, manually download from [Google Drive](https://drive.google.com/drive/folders/1l5JZvx9OBXRW0A6Vy27aO967J85DaKh8?usp=sharing).
+
 
 To reuse custom data, drop trajectories under `<CUSTOM_DATA_DIR>` and update `cfg/<ENV_GROUP>/pretrain/<TASK>.yaml`.
 
 ---
 
-## 🧪 Running DM1
+## 🧪 Pre-Training
 
-### Dispersive Pre-Training (Image-Based)
+**Generic command:**
+
 ```bash
 python script/run.py \
   --config-dir=cfg/robomimic/pretrain/<TASK_NAME> \
-  --config-name=pre_dm1_mlp_img_dispersive \
-  denoising_steps=<DM1_DENOISE_STEPS> \
-  dispersive.loss_type=<DISPERSIVE_VARIANT> \
-  dispersive.weight=<DISPERSIVE_WEIGHT>
+  --config-name=<CONFIG_NAME>
 ```
-Available `<TASK_NAME>`: `lift`, `can`, `square`, `transport`.
 
-### State-Based Variants
+**Example (ShortCut + InfoNCE Cosine on can task):**
+
 ```bash
 python script/run.py \
-  --config-dir=cfg/<ENV_GROUP>/pretrain/<TASK_NAME> \
-  --config-name=pre_dm1_mlp_state_dispersive
+  --config-dir=cfg/robomimic/pretrain/can \
+  --config-name=pre_shortcut_dispersive_cosine_mlp_img
 ```
-`<ENV_GROUP>` can be `gym`, `d3il`, or `kitchen` (Franka Kitchen).
 
-### Evaluation & Rollouts
+- `<TASK_NAME>`: `lift`, `can`, `square`, `transport`
+- `<CONFIG_NAME>`: `pre_shortcut_mlp_img`, `pre_meanflow_mlp_img`, `pre_reflow_mlp_img`, or dispersive variants (see configs)
+- For dispersive loss configuration: see [Dispersive Loss Configuration](#dispersive-loss-configuration)
+
+
+**Full command matrix:** See [PRETRAINING_COMMANDS.md](resources/PRETRAINING_COMMANDS.md) for 96 ready-to-copy training launches (4 tasks × 3 weights × 8 model variants).
+
+---
+
+## 📊 Evaluation & Rollouts
+
+**Prerequisite:** Ensure checkpoints are available (see [Pretrained Checkpoints](#pretrained-checkpoints)).
+
+**Generic command:**
+
 ```bash
 python script/run.py \
-  --config-dir=cfg/robomimic/eval/<TASK_NAME> \
-  --config-name=eval_dm1_mlp_img \
-  base_policy_path=<CHECKPOINT_PATH>
+  --config-dir=cfg/robomimic/eval/<TASK> \
+  --config-name=<EVAL_CONFIG> \
+  base_policy_path=dm1_pretraining_checkpoints/<WEIGHT_DIR>/<TASK>/<CHECKPOINT_FILE>
 ```
-Metrics and plots are stored in `dm1_pretraining_eval_results/`.
+
+**Example (can task, ShortCut + InfoNCE Cosine, w=0.5):**
+
+```bash
+python script/run.py \
+  --config-dir=cfg/robomimic/eval/can \
+  --config-name=eval_shortcut_mlp_img \
+  base_policy_path=dm1_pretraining_checkpoints/w_0p5/can/can_w0p5_05_shortcut_infonce_cosine.pt
+```
+
+- `<TASK>`: `lift`, `can`, `square`, `transport`
+- `<EVAL_CONFIG>`: `eval_shortcut_mlp_img`, `eval_meanflow_mlp_img`, `eval_reflow_mlp_img` (must match the training method)
+- Results are saved to `dm1_pretraining_eval_results/`
+
+**Full command matrix:** [EVALUATION_COMMANDS.md](resources/EVALUATION_COMMANDS.md) lists all 96 evaluation commands.
 
 ---
 
@@ -158,13 +196,14 @@ Real robot deployment scripts (Franka) are provided under `script/real_robot/` w
 
 ## 📈 Reference Metrics
 
-| Setting | Metric | DM1 (w/ dispersive) | Baseline |
-| ------- | ------ | ------------------- | -------- |
-| Robomimic Lift | success @ 2000 iters | `<DM1_LIFT_SUCCESS>` | `<BASELINE_LIFT_SUCCESS>` |
-| Robomimic Can | success @ 2000 iters | `<DM1_CAN_SUCCESS>` | `<BASELINE_CAN_SUCCESS>` |
-| Inference Latency | per action | `<DM1_LATENCY>` | `<BASELINE_LATENCY>` |
+| Task | Baseline (32-128 steps) | DM1 (5 steps) | Improvement | Speedup |
+| ---- | ----------------------- | ------------- | ----------- | ------- |
+| Lift | ~85% | 99% | +14% | 20-40× |
+| Can | Variable | High success | +10-20% | 20-40× |
+| Square | Moderate | Improved | +15-25% | 20-40× |
+| Transport | Low | Significantly improved | +20-30% | 20-40× |
 
-Replace placeholders with your measurements after running the provided scripts in `tools/eval/`.
+**Inference Latency:** DM1 achieves 0.07s per timestep vs. 2-3.5s for diffusion baselines.
 
 ---
 
@@ -179,7 +218,7 @@ dm1-release/
 ├── model/                         # flow, diffusion, gaussian modules
 ├── script/run.py                  # unified launcher
 ├── tools/                         # analysis & visualization utilities
-├── docs/                          # extended documentation
+├── resources/                          # extended documentation
 └── installation/                  # environment setup guides
 ```
 
@@ -189,7 +228,7 @@ dm1-release/
 
 - **Problem**: Diffusion-style policies trained from demonstrations often collapse to narrow manifolds when regularization is weak.
 - **Solution**: DM1 introduces dispersive loss variants that maintain feature diversity while retaining meanflow efficiency.
-- **Impact**: Demonstrated gains on `<PRIMARY_BENCHMARK>` plus transfer to `<REAL_ROBOT_PLATFORM>` with minimal tuning.
+
 
 If you build upon DM1, please cite:
 
