@@ -313,40 +313,39 @@ class MeanFlowDispersive(nn.Module):
         
         try:
             # Get embeddings from network if available
-            with torch.no_grad():
-                if hasattr(self.network, 'forward') and 'output_embedding' in self.network.forward.__code__.co_varnames:
-                    # Sample parameters for forward pass
-                    t = torch.rand(B, device=self.device)
-                    r = torch.rand(B, device=self.device)
-                    
-                    try:
-                        velocity, time_emb, r_emb, cond_emb = self.network.forward(
-                            action, t, r, cond, output_embedding=True
-                        )
-                        
-                        # Apply dispersive loss to embeddings
-                        if self.apply_dispersive_to_embeddings:
-                            # Apply to time embeddings
-                            if time_emb is not None and time_emb.requires_grad:
-                                time_emb_flat = time_emb.view(B, -1)
-                                time_dispersive = self.dispersive_loss(time_emb_flat)
-                                dispersive_losses.append(time_dispersive)
-                            
-                            # Apply to r embeddings  
-                            if r_emb is not None and r_emb.requires_grad:
-                                r_emb_flat = r_emb.view(B, -1)
-                                r_dispersive = self.dispersive_loss(r_emb_flat)
-                                dispersive_losses.append(r_dispersive)
-                            
-                            # Apply to condition embeddings
-                            if cond_emb is not None and cond_emb.requires_grad:
-                                cond_emb_flat = cond_emb.view(B, -1)
-                                cond_dispersive = self.dispersive_loss(cond_emb_flat)
-                                dispersive_losses.append(cond_dispersive)
-                                
-                    except TypeError:
-                        # Network doesn't support output_embedding
-                        pass
+            if hasattr(self.network, 'forward') and 'output_embedding' in self.network.forward.__code__.co_varnames:
+                # Sample parameters for forward pass
+                t = torch.rand(B, device=self.device)
+                r = torch.rand(B, device=self.device)
+
+                try:
+                    velocity, time_emb, r_emb, cond_emb = self.network.forward(
+                        action, t, r, cond, output_embedding=True
+                    )
+
+                    # Apply dispersive loss to embeddings
+                    if self.apply_dispersive_to_embeddings:
+                        # Apply to time embeddings
+                        if time_emb is not None:
+                            time_emb_flat = time_emb.view(B, -1)
+                            time_dispersive = self.dispersive_loss(time_emb_flat)
+                            dispersive_losses.append(time_dispersive)
+
+                        # Apply to r embeddings
+                        if r_emb is not None:
+                            r_emb_flat = r_emb.view(B, -1)
+                            r_dispersive = self.dispersive_loss(r_emb_flat)
+                            dispersive_losses.append(r_dispersive)
+
+                        # Apply to condition embeddings
+                        if cond_emb is not None:
+                            cond_emb_flat = cond_emb.view(B, -1)
+                            cond_dispersive = self.dispersive_loss(cond_emb_flat)
+                            dispersive_losses.append(cond_dispersive)
+
+                except TypeError:
+                    # Network doesn't support output_embedding
+                    pass
                         
         except Exception as e:
             log.warning(f"Failed to compute dispersive loss for MeanFlow: {e}")
